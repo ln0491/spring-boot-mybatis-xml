@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghgcn.mbxml.mapper.AuthorMapper">
+
+	<cache />
+	<!--使用resultMap映射 type使用别名，单独使用Author关联 -->
+	<resultMap type="Author" id="authorResultMap">
+		<!--主键 -->
+		<id property="authorId" column="author_id" />
+		<!--普通属性与表中的字段对应 -->
+		<result property="authorUsername" column="author_username" />
+		<result property="authorPassword" column="author_password" />
+		<result property="authorEmail" column="author_email" />
+		<result property="authorBio" column="author_bio" />
+		<result property="registerTime" column="register_time" />
+	</resultMap>
+
+	<select id="findAuthor" parameterType="int" resultMap="authorResultMap">
+		select *
+		from author where author_id = #{id}
+	</select>
+
+	<select id="findAuthorList" resultMap="authorResultMap">
+		select * from author
+	</select>
+
+	<!--添加 -->
+	<insert id="add" parameterType="Author">
+		INSERT INTO
+		author(author_username,author_password,author_email,author_bio)
+		VALUES(#{authorUsername},#{authorPassword},#{authorEmail},#{authorBio})
+	</insert>
+
+
+	<update id="update" parameterType="Author">
+		UPDATE author SET
+		author_username=
+		#{authorUsername},author_password=#{authorPassword}
+		,author_email=#{authorEmail}
+		,author_bio=#{authorBio},register_time=#{registerTime}
+		WHERE author_id=#{authorId}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM author WHERE author_id= #{id}
+	</delete>
+</mapper>
